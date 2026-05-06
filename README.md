@@ -1,0 +1,1 @@
+# komponen-wastaru-2026
