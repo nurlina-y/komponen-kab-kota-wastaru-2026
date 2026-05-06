@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mind Mapping Interaktif Komponen Penilaian Pengawasan Kinerja Penyelenggaraan Penataan Ruang Pemerintah Daerah Kabupaten/Kota 2026</title>
+<style>
+:root {
+  --panel-green:#008000;
+  --orange:#ff9b36;
+  --red:#ef0000;
+  --ink:#111827;
+  --muted:#4b5563;
+  --shadow:0 12px 30px rgba(0,0,0,.12);
+}
+* { box-sizing:border-box; }
+body { margin:0; font-family:Arial, Helvetica, sans-serif; background:#f6f7fb; color:var(--ink); }
+.page { max-width:1560px; margin:0 auto; padding:18px 18px 40px; }
+.titlebar {
+  width:min(1120px, 92%); margin:0 auto 18px; background:#7d7d7d; color:#fff; text-align:center;
+  font-weight:900; font-size:clamp(24px,3vw,44px); padding:18px 22px; border-radius:10px;
+}
+.panel { border:4px solid var(--panel-green); border-radius:26px; background:#f6f7fb; overflow:hidden; box-shadow:var(--shadow); }
+.panel-head {
+  background:var(--panel-green); color:white; text-align:center; font-size:clamp(21px,2.4vw,34px);
+  font-weight:900; padding:17px 22px;
+}
+.toolbar {
+  display:flex; gap:10px; flex-wrap:wrap; align-items:center; background:#f6f7fb; padding:12px; border-bottom:3px solid var(--panel-green);
+}
+.search { flex:1; min-width:280px; padding:12px 14px; border:2px solid #d7dde8; border-radius:12px; font-size:15px; }
+button {
+  border:0; background:var(--panel-green); color:#fff; border-radius:12px; padding:12px 14px;
+  font-weight:900; cursor:pointer; font-size:14px;
+}
+button:hover { filter:brightness(.92); transform:translateY(-1px); }
+.summary {
+  display:grid; grid-template-columns:repeat(4, minmax(130px, 1fr)); gap:10px; padding:12px;
+  background:#f6f7fb; border-bottom:3px solid var(--panel-green);
+}
+.stat {
+  background:white; border:2px solid #d7dde8; border-radius:16px; padding:10px 12px; text-align:center;
+}
+.stat strong { display:block; color:var(--panel-green); font-size:26px; line-height:1; }
+.stat span { color:var(--muted); font-size:13px; font-weight:700; }
+.map {
+  display:grid; grid-template-columns: 1fr 1.06fr 1fr; gap:20px; padding:18px; background:#f6f7fb;
+}
+.col { display:flex; flex-direction:column; gap:18px; }
+.aspect {
+  border-radius:28px; overflow:hidden; box-shadow:0 8px 18px rgba(0,0,0,.22);
+  border:3px solid var(--border); background:var(--body);
+}
+.aspect.bonus-box { border:4px dashed var(--red); }
+.aspect-header {
+  background:var(--head); color:white; padding:13px 16px; text-align:center;
+  font-size:clamp(18px,1.55vw,26px); font-weight:900; line-height:1.25; cursor:pointer;
+  display:flex; justify-content:center; align-items:center; gap:10px;
+}
+.aspect-header:hover { filter:brightness(1.05); }
+.aspect-body { padding:14px; display:flex; flex-direction:column; gap:10px; }
+.component {
+  background:rgba(255,255,255,.32); border:1px solid rgba(0,0,0,.08); border-radius:15px; overflow:hidden;
+  transition:.18s ease;
+}
+.component:hover {
+  transform:translateX(2px); background:rgba(255,255,255,.55); box-shadow:0 5px 13px rgba(0,0,0,.12);
+}
+.component-title {
+  width:100%; display:grid; grid-template-columns:34px 1fr 24px; align-items:center; gap:10px;
+  padding:10px 12px; cursor:pointer; font-weight:800; line-height:1.25; color:#06110a;
+}
+.icon { font-size:25px; text-align:center; }
+.chev { font-size:18px; color:#1f2937; transition:.2s ease; }
+.component.open .chev { transform:rotate(90deg); }
+.details { display:none; padding:0 12px 12px 56px; }
+.component.open .details { display:block; }
+.subitem {
+  background:#fff; border-left:5px solid var(--head); border-radius:10px; padding:10px 11px; margin-top:9px;
+}
+.sub-title { font-weight:900; font-size:14px; color:#152015; }
+.evidence-title {
+  display:inline-block; margin-top:9px; background:rgba(255,255,255,.75); color:#063a12;
+  font-weight:900; font-size:12px; padding:4px 7px; border-radius:8px; border:1px solid rgba(0,0,0,.08);
+}
+ul { margin:7px 0 0; padding-left:18px; }
+li { margin-bottom:5px; font-size:13px; line-height:1.35; }
+.badge {
+  display:inline-block; margin-left:7px; background:var(--orange); color:#111; font-size:11px;
+  font-weight:900; padding:3px 7px; border-radius:999px; vertical-align:middle;
+}
+.footer-badge {
+  width:max-content; max-width:92%; margin:-10px auto 20px; background:var(--panel-green); color:white;
+  text-align:center; padding:12px 28px; border-radius:18px; font-weight:900; font-size:clamp(19px,2vw,30px); line-height:1.25;
+}
+.legend { display:flex; align-items:center; gap:14px; margin:20px 0 0 46px; color:#111; }
+.minus {
+  width:42px; height:42px; background:var(--orange); color:white; border-radius:50%;
+  display:grid; place-items:center; font-weight:900; font-size:30px;
+}
+.legend-text {
+  background:#fff54d; font-weight:900; font-size:clamp(16px,1.7vw,24px); padding:8px 10px;
+}
+.empty {
+  display:none; background:white; padding:18px; border-radius:16px; text-align:center; font-weight:800; margin:18px;
+}
+mark { background:#fff36e; padding:1px 3px; border-radius:3px; }
+@media (max-width:1100px) {
+  .map { grid-template-columns:1fr; }
+  .summary { grid-template-columns:repeat(2,1fr); }
+  .footer-badge { margin:10px auto 20px; }
+}
+@media print {
+  body { background:white; }
+  .toolbar { display:none; }
+  .panel { border:0; box-shadow:none; }
+  .map { grid-template-columns:1fr; background:white; }
+  .component .details { display:block; }
+  .legend { color:#111; }
+}
+
+.data-year-note {
+  margin: 18px auto 0;
+  max-width: 980px;
+  background: #ffffff;
+  border: 2px solid #d7dde8;
+  border-radius: 14px;
+  padding: 14px 18px;
+  text-align: center;
+  font-weight: 900;
+  font-size: clamp(16px, 1.6vw, 22px);
+  color: #111827;
+  box-shadow: 0 6px 18px rgba(0,0,0,.06);
+}
+
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="titlebar">Komponen Penilaian Pengawasan Kinerja Penyelenggaraan Penataan Ruang 2026</div>
+  <section class="panel">
+    <div class="panel-head">Komponen Penilaian Kabupaten/Kota</div>
+    <div class="toolbar">
+      <input class="search" id="search" placeholder="Cari: KKPR, RDTR, FPR, sanksi, sinkronisasi, bukti dukung..." />
+      <button onclick="expandAll()">Expand semua</button>
+      <button onclick="collapseAll()">Collapse semua</button>
+      <button onclick="resetSearch()">Reset</button>
+    </div>
+    <div class="summary">
+      <div class="stat"><strong>5</strong><span>Aspek</span></div>
+      <div class="stat"><strong>21</strong><span>dari 22 Komponen utama</span></div>
+      <div class="stat"><strong>22</strong><span>Komponen termasuk bonus</span></div>
+      <div class="stat"><strong>38</strong><span>Sub-komponen / item</span></div>
+    </div>
+    <div class="map" id="map"></div>
+    <div class="empty" id="empty">Tidak ada hasil yang cocok.</div>
+  </section>
+  <div class="footer-badge">5 Aspek<br>21 dari 22 Komponen</div>
+  <div class="data-year-note">Bukti Dukung Komponen Penilaian Tahun 2026 menggunakan tahun data 2024-2025</div>
+  <div class="legend">
+    <div class="minus">−</div>
+    <div class="legend-text">komponen akan menjadi bonus nilai tambahan Tahun 2026</div>
+  </div>
+</div>
+<script>
+const DATA = [{"aspect": "I. Aspek Pengaturan Penataan Ruang", "icon": "📚", "header_color": "#0E9F6E", "body_color": "#f6f7fb", "border_color": "#0B7A55", "components": [{"title": "Produk Hukum Perencanaan Tata Ruang", "icon": "📘", "children": [{"sub": "Ketersediaan Peraturan tentang Rencana Umum Tata Ruang", "evidence": ["Perda/Permen tentang RTRW Kabupaten/Kota yang masih berlaku sesuai tahun data.", "Dokumen Perda/Permen.", "Album Peta dalam format Shapefile.", "Album Peta Non Shapefile/Gambar.", "Lampiran Indikasi Program."]}, {"sub": "Ketersediaan Peraturan tentang Rencana Rinci Tata Ruang, hanya untuk Kabupaten/Kota", "evidence": ["Perkada/Permen tentang RDTR Kabupaten/Kota yang masih berlaku sesuai tahun data.", "Dokumen Perkada/Permen.", "Album Peta dalam format Shapefile.", "Album Peta Non Shapefile/Gambar.", "Lampiran Indikasi Program.", "Tabel ITBX."]}, {"sub": "Ketersediaan Peraturan dan/atau Keputusan Bidang Penataan Ruang sebagai Turunan dari RTR", "evidence": ["Perda/Perkada bidang penataan ruang sebagai turunan dari RTR yang masih berlaku sesuai tahun data.", "Dokumen Perda/Perkada, wajib.", "Album Peta dalam format Shapefile, opsional.", "Indikasi Program, opsional."]}]}, {"title": "Produk Hukum Pemanfaatan Ruang", "icon": "📗", "children": [{"sub": "Ketersediaan Peraturan tentang Rencana Pembangunan Daerah", "evidence": ["Perda RPJMD beserta lampirannya yang masih berlaku sesuai tahun data.", "Perkada RKPD beserta lampirannya yang masih berlaku sesuai tahun data."]}, {"sub": "Ketersediaan Peraturan dan/atau Keputusan terkait Pelaksanaan KKPR", "evidence": ["Dokumen Perkada/SK Kepala Daerah/SE/SK Kepala Perangkat Daerah terkait tata cara pelaksanaan atau penerbitan KKPR.", "Dokumen tersebut harus masih berlaku sesuai tahun data."]}, {"sub": "Ketersediaan Peraturan dan/atau Keputusan terkait Pelaksanaan Sinkronisasi Program Pemanfaatan Ruang", "evidence": ["Dokumen Perkada/SK Kepala Daerah/SE/SK Kepala Perangkat Daerah terkait pelaksanaan sinkronisasi program pemanfaatan ruang.", "Dokumen tersebut harus masih berlaku sesuai tahun data."]}]}, {"title": "Produk Hukum Pengendalian Pemanfaatan Ruang", "icon": "📙", "children": [{"sub": "Ketersediaan Peraturan terkait Perangkat Pengendalian Pemanfaatan Ruang Daerah", "evidence": ["Jika telah ditetapkan sebagai Perda/Perkada: dokumen Perda/Perkada, wajib.", "Jika telah ditetapkan sebagai Perda/Perkada: Album Peta Shapefile/Non Shapefile, wajib.", "Jika masih proses penyusunan: dokumen bukti dukung progres terakhir penyusunan Perda/Perkada."]}, {"sub": "Ketersediaan Peraturan dan/atau Keputusan terkait Penilaian Pelaksanaan KKPR dan Pernyataan Mandiri Pelaku UMK/PMP UMRR", "evidence": ["Dokumen Perkada/SK Kepala Daerah/SE/SK Kepala Perangkat Daerah terkait tata cara penilaian pelaksanaan KKPR.", "Dokumen terkait tata cara penilaian PMP UMK/PMP UMRR.", "Dokumen pembentukan Tim Penilai KKPR.", "Dokumen pembentukan Tim Penilai PMP UMK/PMP UMRR.", "Dokumen yang diunggah harus masih berlaku pada tahun data."]}, {"sub": "Ketersediaan Peraturan dan/atau Keputusan terkait Keputusan Penilaian Perwujudan RTR", "evidence": ["Dokumen Perkada/SK Kepala Daerah/SE/SK Kepala Perangkat Daerah terkait penilaian perwujudan RTR.", "Dokumen tersebut harus masih berlaku sesuai tahun data."]}, {"sub": "Ketersediaan Peraturan dan/atau Keputusan terkait Pemberian Insentif dan Disinsentif", "evidence": ["Jika telah ditetapkan sebagai Perda/Perkada: dokumen Perda/Perkada, wajib.", "Jika telah ditetapkan sebagai Perda/Perkada: Album Peta Shapefile/Non Shapefile, wajib.", "Jika masih proses penyusunan: dokumen bukti dukung progres terakhir penyusunan Perda/Perkada."]}, {"sub": "Ketersediaan Peraturan dan/atau Keputusan terkait Pengenaan Sanksi Administratif Bidang Penataan Ruang", "evidence": ["Dokumen Perkada/SK Kepala Daerah/SE/SK Kepala Perangkat Daerah terkait pengenaan sanksi administratif bidang penataan ruang.", "Dokumen tersebut harus masih berlaku sesuai tahun data."]}, {"sub": "Ketersediaan Peraturan dan/atau Keputusan terkait Penyelesaian Sengketa Penataan Ruang", "evidence": ["Dokumen Perkada/SK Kepala Daerah/SE/SK Kepala Perangkat Daerah terkait penyelesaian sengketa penataan ruang.", "Dokumen tersebut harus masih berlaku sesuai tahun data."]}]}, {"title": "Produk Hukum Pembinaan Penataan Ruang", "icon": "📒", "children": [{"sub": "Ketersediaan Keputusan tentang Pembentukan Forum Penataan Ruang Daerah", "evidence": ["Dokumen SK terkait pembentukan Forum Penataan Ruang Daerah.", "SK tersebut harus masih berlaku sesuai tahun data."]}, {"sub": "Ketersediaan Keputusan terkait Tindak Lanjut Hasil Rapat Forum Penataan Ruang Daerah", "evidence": ["Dokumen Surat Keputusan/Surat Keterangan yang menindaklanjuti keputusan hasil rapat FPR.", "Dokumen tersebut harus masih berlaku sesuai tahun data."]}]}]}, {"aspect": "II. Aspek Pembinaan Penataan Ruang", "icon": "🤝", "header_color": "#1D4ED8", "body_color": "#f6f7fb", "border_color": "#1E40AF", "components": [{"title": "Koordinasi", "icon": "🧩", "children": [{"sub": "Pelaksanaan Rapat Koordinasi Bidang Penataan Ruang oleh Forum Penataan Ruang Daerah", "evidence": ["Surat undangan.", "Daftar hadir.", "Berita acara rapat.", "Notulensi rapat.", "Bukti bahwa rapat koordinasi dilaksanakan sesuai tahun data."]}]}, {"title": "Sosialisasi", "icon": "📣", "children": [{"sub": "Pelaksanaan Sosialisasi Peraturan Perundang-Undangan Bidang Penataan Ruang", "evidence": ["Surat undangan.", "Daftar hadir.", "Laporan pelaksanaan kegiatan.", "Notulensi.", "Dokumentasi kegiatan."]}]}, {"title": "Bimbingan, Supervisi dan Konsultasi", "icon": "🧭", "children": [{"sub": "Pelaksanaan Bimbingan, Supervisi, dan Konsultasi Pelaksanaan Penataan Ruang", "evidence": ["Laporan pelaksanaan kegiatan.", "Notulensi.", "Dokumentasi kegiatan."]}]}, {"title": "Pendidikan dan Pelatihan", "icon": "🎓", "children": [{"sub": "Pelaksanaan Pendidikan dan Pelatihan Bidang Penataan Ruang oleh Pemerintah Daerah", "evidence": ["Laporan pelaksanaan pendidikan dan latihan.", "Notulensi.", "Dokumentasi kegiatan.", "Ijazah pendidikan.", "Surat tugas belajar.", "Sertifikat.", "Surat pemanggilan peserta pendidikan dan pelatihan."]}]}, {"title": "Litbang/Inovasi", "icon": "💡", "children": [{"sub": "Pelaksanaan Penelitian, Kajian, dan Pengembangan Inovasi Bidang Penataan Ruang", "evidence": ["Laporan penelitian/kajian/pengembangan.", "Dokumentasi penelitian/kajian/pengembangan.", "Bukti dukung lainnya yang relevan."]}]}, {"title": "Sistem Informasi dan Komunikasi", "icon": "🖥️", "children": [{"sub": "Pengembangan Sistem Informasi dan Komunikasi Bidang Penataan Ruang", "evidence": ["Aplikasi.", "Alamat website.", "Media sosial, jika digunakan sebagai kanal informasi.", "Tangkapan layar muatan sistem informasi penataan ruang."]}, {"sub": "Pengembangan Sistem Informasi Pengaduan Masyarakat di Bidang Penataan Ruang", "evidence": ["Aplikasi.", "Alamat website.", "Media sosial, jika digunakan sebagai kanal pengaduan.", "Tangkapan layar muatan sistem informasi pengaduan masyarakat."]}, {"sub": "Pelaksanaan Pemutakhiran Data dan Informasi dalam Sistem Informasi", "evidence": ["Dokumentasi updating data.", "Bukti bahwa pemutakhiran dilakukan paling sedikit 1 kali dalam tahun data."]}]}, {"title": "Penyebarluasan Informasi", "icon": "📢", "children": [{"sub": "Pelaksanaan penyebarluasan informasi Penataan Ruang melalui media cetak dan media elektronik", "evidence": ["Dokumentasi penyebarluasan informasi melalui media cetak.", "Dokumentasi penyebarluasan informasi melalui media elektronik.", "Catatan: penyebarluasan melalui sistem informasi tidak dinilai pada komponen ini."]}]}, {"title": "Pengembangan Kesadaran Masyarakat", "icon": "👥", "children": [{"sub": "Pelaksanaan Peningkatan Pemahaman dan Tanggung Jawab Masyarakat", "evidence": ["Laporan hasil kegiatan.", "Dokumentasi kegiatan.", "Absensi/daftar hadir."]}]}, {"title": "Pengembangan Profesi Perencana Tata Ruang", "icon": "🪪", "children": [{"sub": "Pengembangan Profesi Perencana Tata Ruang yang diikuti Pejabat Fungsional Bidang Penataan Ruang Daerah", "evidence": ["Laporan pelaksanaan pembinaan Pejabat Fungsional Bidang Penata Ruang.", "Sertifikat pelatihan.", "Bukti pengembangan profesi lainnya yang relevan."]}]}]}, {"aspect": "III. Aspek Perencanaan Tata Ruang", "icon": "🗺️", "header_color": "#CA8A04", "body_color": "#f6f7fb", "border_color": "#A16207", "components": [{"title": "Ketersediaan Dokumen Rencana", "icon": "📄", "children": [{"sub": "Ketersediaan Dokumen Rencana Umum Tata Ruang", "evidence": ["Jika tidak sedang revisi/penyusunan: Perda/Permen tentang RTRW Kabupaten/Kota yang masih berlaku.", "Jika sedang revisi/penyusunan: dokumen bukti dukung progres terakhir dalam proses penyusunan RTRW Kabupaten/Kota."]}, {"sub": "Ketersediaan Dokumen Rencana Rinci Tata Ruang, hanya untuk Kabupaten/Kota", "evidence": ["Jika tidak sedang revisi/penyusunan: Perkada/Permen tentang RDTR Kabupaten/Kota yang masih berlaku.", "Jika sedang revisi/penyusunan: dokumen bukti dukung progres terakhir dalam proses penyusunan RDTR Kabupaten/Kota."]}]}, {"title": "Kelengkapan Muatan Dokumen Rencana", "icon": "✅", "children": [{"sub": "Ketersediaan Kelengkapan Muatan pada Dokumen Rencana Umum Tata Ruang", "evidence": ["Informasi pasal dalam batang tubuh Perda/Permen.", "Nomor pasal dan informasi lain yang mengatur perencanaan tiap kawasan dalam RTRW.", "Peta dalam Perda/Permen yang mengatur perencanaan tiap kawasan.", "Informasi pasal dalam batang tubuh Perda/Permen yang mengatur ketentuan pengendalian pemanfaatan ruang pada tiap kawasan."]}, {"sub": "Ketersediaan Kelengkapan Muatan pada Dokumen Rencana Rinci Tata Ruang", "evidence": ["Informasi pasal dalam batang tubuh Perkada/Permen.", "Nomor pasal dan informasi lain yang mengatur perencanaan tiap zona dalam RDTR.", "Peta dalam Perkada/Permen yang mengatur perencanaan tiap zona.", "Informasi pasal dalam batang tubuh Perkada/Permen yang mengatur peraturan zonasi pada tiap zona."]}]}]}, {"aspect": "IV. Aspek Pemanfaatan Ruang", "icon": "🏗️", "header_color": "#0F766E", "body_color": "#f6f7fb", "border_color": "#115E59", "components": [{"title": "Pelaksanaan KKPR", "icon": "📑", "children": [{"sub": "Jumlah penerbitan KKPR dan PMP UMK/PMP UMRR yang sudah ditindaklanjuti persetujuan dan/atau perizinannya", "evidence": ["Rekapitulasi penerbitan KKPR.", "Rekapitulasi penerbitan PMP UMK/PMP UMRR.", "Sampel dokumen KKPR yang diterbitkan.", "Sampel dokumen PMP UMK/PMP UMRR yang diterbitkan.", "Rekapitulasi penerbitan KKPR dan PMP UMK/PMP UMRR yang sudah ditindaklanjuti dengan perizinan lanjutan.", "Sampel dokumen perizinan lanjutan, misalnya PBG, SLF, PL, Sertifikat Standar, dan sejenisnya.", "Jika tidak ada permohonan penerbitan pada tahun data: surat pernyataan yang ditandatangani sekurang-kurangnya oleh Pejabat Eselon III."]}]}, {"title": "Pelaksanaan Sinkronisasi Pemanfaatan Ruang", "icon": "🔄", "children": [{"sub": "Ketersediaan Dokumen Sinkronisasi Program Pemanfaatan Ruang jangka menengah dan jangka pendek", "evidence": ["Dokumen Sinkronisasi Program Pemanfaatan Ruang jangka menengah yang masih berlaku pada tahun data.", "Dokumen Sinkronisasi Program Pemanfaatan Ruang jangka pendek yang masih berlaku pada tahun data."]}, {"sub": "Kesesuaian Program dalam Rencana Pembangunan Daerah dengan Indikasi Program dalam Rencana Tata Ruang", "evidence": ["Halaman yang menyatakan kesesuaian program dalam dokumen rencana pembangunan daerah.", "Dokumen rencana pembangunan daerah dapat berupa RPJMD, RKPD, Renstra PD, Renja PD, LAKIP, dan sejenisnya.", "Halaman yang menyatakan kesesuaian program dalam RTRW Kabupaten/Kota.", "Halaman yang menyatakan kesesuaian program dalam RDTR Kabupaten/Kota, jika relevan.", "Bukti kesesuaian paling sedikit mencakup nama rencana program, perangkat daerah pelaksana, tahun rencana, dan lokasi program."]}]}]}, {"aspect": "V. Aspek Pengendalian Pemanfaatan Ruang", "icon": "🛡️", "header_color": "#B91C1C", "body_color": "#f6f7fb", "border_color": "#991B1B", "bonus": true, "components": [{"title": "Penilaian Pelaksanaan KKPR dan Pernyataan Mandiri Pelaku UMK", "icon": "🧾", "children": [{"sub": "Ketersediaan Dokumen laporan hasil Penilaian Pelaksanaan KKPR", "evidence": ["Berita Acara Penilaian Pelaksanaan KKPR; atau SK Penetapan Hasil Penilaian Pelaksanaan KKPR.", "Rekapitulasi hasil penilaian KKPR."]}, {"sub": "Ketersediaan dokumen laporan hasil penilaian Pernyataan Mandiri Pelaku UMK/PMP UMRR", "evidence": ["Berita Acara Penilaian Pelaksanaan PMP UMK/PMP UMRR; atau SK Penetapan Hasil Penilaian PMP UMK/PMP UMRR.", "Rekapitulasi hasil penilaian PMP UMK/PMP UMRR."]}]}, {"title": "Penilaian Perwujudan RTR", "icon": "📊", "children": [{"sub": "Ketersediaan Dokumen Laporan Hasil Penilaian Perwujudan RTR", "evidence": ["Laporan hasil Penilaian Perwujudan RTR sesuai tahun data.", "Dokumen penetapan hasil penilaian berdasarkan kewenangan Pemerintah Daerah Kabupaten/Kota, jika tersedia/menjadi bagian dari laporan."]}]}, {"title": "Penerapan Insentif Disinsentif", "icon": "🎯", "children": [{"sub": "Pelaksanaan Pemberian Insentif dan Disinsentif Bidang Penataan Ruang", "evidence": ["Laporan pemberian insentif dan/atau disinsentif bidang penataan ruang.", "Dokumen lain terkait pemberian insentif dan/atau disinsentif.", "Informasi bentuk insentif dan/atau disinsentif.", "Informasi lokasi penerima.", "Informasi penerima insentif dan/atau disinsentif."]}]}, {"title": "Pengenaan Sanksi", "icon": "⚖️", "children": [{"sub": "Pelaksanaan Pengenaan Sanksi Administratif terhadap Pelanggaran Pemanfaatan Ruang", "evidence": ["Rekapitulasi indikasi pelanggaran pemanfaatan ruang.", "Dokumen pendukung pengenaan sanksi administratif.", "Foto pengenaan sanksi administratif terhadap pelanggaran pemanfaatan ruang.", "Bukti sanksi administratif sekurang-kurangnya berupa surat peringatan."]}]}, {"title": "Penanganan Sengketa", "icon": "🤝", "bonus": true, "children": [{"sub": "Pelaksanaan Penyelesaian Sengketa Penataan Ruang yang terjadi", "evidence": ["Laporan penyelesaian sengketa penataan ruang.", "Berita acara.", "Dokumentasi.", "Salinan keputusan pengadilan, jika ada.", "Dokumen sejenis yang menunjukkan proses/hasil penyelesaian sengketa.", "Catatan: komponen ini menjadi bonus nilai pada Aspek Pengendalian Pemanfaatan Ruang Tahun 2026."]}]}]}];
+const map = document.getElementById("map");
+const search = document.getElementById("search");
+const empty = document.getElementById("empty");
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+function hi(text, q) {
+  let safe = esc(text);
+  if (!q) return safe;
+  const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi");
+  return safe.replace(re, m => `<mark>${m}</mark>`);
+}
+function componentHTML(comp, q, headColor) {
+  const bonus = comp.bonus ? '<span class="badge">Bonus 2026</span>' : '';
+  const details = comp.children.map(ch => `
+    <div class="subitem" style="border-left-color:${headColor}">
+      <div class="sub-title">${hi(ch.sub, q)}</div>
+      <span class="evidence-title">Bukti Dukung</span>
+      <ul>${ch.evidence.map(e => `<li>${hi(e, q)}</li>`).join("")}</ul>
+    </div>
+  `).join("");
+  return `
+    <div class="component">
+      <div class="component-title" onclick="toggleComponent(this)">
+        <div class="icon">${comp.icon}</div>
+        <div>${hi(comp.title, q)}${bonus}</div>
+        <div class="chev">›</div>
+      </div>
+      <div class="details">${details}</div>
+    </div>
+  `;
+}
+function aspectHTML(aspect, q) {
+  const bonusClass = aspect.bonus ? " bonus-box" : "";
+  return `
+    <section class="aspect${bonusClass}" style="--head:${aspect.header_color}; --body:${aspect.body_color}; --border:${aspect.border_color}">
+      <div class="aspect-header" onclick="toggleAspect(this)">
+        <span>${aspect.icon}</span>
+        <span>${hi(aspect.aspect, q)}</span>
+      </div>
+      <div class="aspect-body">
+        ${aspect.components.map(c => componentHTML(c, q, aspect.header_color)).join("")}
+      </div>
+    </section>
+  `;
+}
+function render() {
+  const q = search.value.trim().toLowerCase();
+  map.innerHTML = "";
+  const filtered = DATA.map(a => {
+    const comps = a.components.filter(c => !q || JSON.stringify(c).toLowerCase().includes(q) || a.aspect.toLowerCase().includes(q));
+    return comps.length ? {...a, components: comps} : null;
+  }).filter(Boolean);
+
+  const columns = [[], [], []];
+  filtered.forEach(a => {
+    if (a.aspect.includes("Pengaturan") || a.aspect.includes("Perencanaan")) columns[0].push(a);
+    else if (a.aspect.includes("Pembinaan")) columns[1].push(a);
+    else columns[2].push(a);
+  });
+  columns.forEach(colData => {
+    const col = document.createElement("div");
+    col.className = "col";
+    col.innerHTML = colData.map(a => aspectHTML(a, q)).join("");
+    map.appendChild(col);
+  });
+  empty.style.display = filtered.length ? "none" : "block";
+  if (q) expandAll();
+}
+function toggleComponent(el) { el.closest(".component").classList.toggle("open"); }
+function toggleAspect(el) {
+  const body = el.nextElementSibling;
+  body.style.display = body.style.display === "none" ? "flex" : "none";
+}
+function expandAll() {
+  document.querySelectorAll(".component").forEach(c => c.classList.add("open"));
+  document.querySelectorAll(".aspect-body").forEach(b => b.style.display = "flex");
+}
+function collapseAll() { document.querySelectorAll(".component").forEach(c => c.classList.remove("open")); }
+function resetSearch() { search.value = ""; render(); }
+search.addEventListener("input", render);
+render();
+</script>
+</body>
+</html>
